@@ -5,7 +5,7 @@ import json
 import requests
 
 from pyrogram import Client, filters, idle
-from pyrogram.types import Messages
+from pyrogram.types import Message
 
 
 dog_ = "https://dogebin.up.railway.app/"
