@@ -4,9 +4,7 @@ import subprocess
 
 import asyncio
 import ffmpeg 
-
 import logging
-from logging.handlers import RotatingFileHandler
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -35,17 +33,6 @@ ydl_opts = {
     }
 ydl = YoutubeDL(ydl_opts)
 
-logging.basicConfig(level=logging.INFO,
-                    format='[%(asctime)s - %(levelname)s] - %(name)s - %(message)s',
-                    datefmt='%d-%b-%y %H:%M:%S',
-                    handlers=[
-                        RotatingFileHandler(
-                            "/app/tgvcuserbot.txt", maxBytes=2048000, backupCount=10),
-                        logging.StreamHandler()
-                    ])
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-logging.getLogger("pyrogram.dispatcher").setLevel(logging.INFO)
-logging.getLogger("root").setLevel(logging.INFO)
 
 @Client.on_message(self_or_contact_filter & filters.command('stream', prefixes='!'))
 async def stream(client, message: Message):
@@ -127,11 +114,3 @@ async def leaveradio(_, message: Message):
 @Client.on_message(self_or_contact_filter & filters.command('radio', prefixes='!'))
 async def show_radio_help(_, m: Message):
     await m.reply_text(f"- [Some Live Stream Links Here](https://telegra.ph/Some-Radio-Links-08-17) \n- You can also use YT-LIVE URL \n\n`!stream [stream_url]`  -  __Starts Live Stream from that Link__ \n`!end`  -  __Stops the Live Stream__", disable_web_page_preview=True)
-
-@Client.on_message(self_or_contact_filter & filters.command('logs', prefixes='!'))
-async def logzzz(client, m: Message):
-    try:
-        await client.send_document(m.chat.id, "/app/tgvcuserbot.txt")
-    except Exception as e:
-        await m.reply(f"**Error** \n`{e}`")
-        return
