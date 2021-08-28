@@ -25,7 +25,7 @@ API_ID = int(environ["API_ID"])
 API_HASH = environ["API_HASH"]
 SESSION_NAME = environ["SESSION_NAME"]
 
-PLUGINS = dict(root="plugins.userbot, plugins.vc")
+PLUGINS = dict(root="plugins.userbot", vcbot="plugins.vc")
 
 app = Client(SESSION_NAME, API_ID, API_HASH, plugins=PLUGINS)
 
