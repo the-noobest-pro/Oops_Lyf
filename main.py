@@ -29,10 +29,8 @@ PLUGINS = dict(
     root="plugins",
     include=[
         "vc." + environ["PLUGIN"],
-        "ping",
-        "sysinfo",
-        "stream",
-        "devtools"
+        "vc.stream",
+        "userbot"
     ]
 )
 
