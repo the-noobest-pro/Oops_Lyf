@@ -28,7 +28,7 @@ SESSION_NAME = environ["SESSION_NAME"]
 
 PLUGINS = dict(root="plugins")
 
-app = Client(SESSION_NAME, API_ID, API_HASH)
+app = Client(SESSION_NAME, API_ID, API_HASH, plugins=PLUGINS)
 group_call = GroupCallFactory(app)
 
 app.start()
