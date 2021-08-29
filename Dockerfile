@@ -8,7 +8,7 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y ffmpeg opus-tools bpm-tools
 RUN python -m pip install --upgrade pip
 RUN python -m pip install wheel TgCrypto
-RUN python -m pip install pytgcalls==3.0.0.dev6 ffmpeg-python psutil youtube_dl requests aiofiles aiohttp
+RUN python -m pip install pytgcalls==3.0.0.dev8 ffmpeg-python psutil youtube_dl requests aiofiles aiohttp
 RUN python -m pip uninstall pyrogram
 RUN python -m pip install git+https://github.com/pyrogram/pyrogram@master
 COPY . /app
