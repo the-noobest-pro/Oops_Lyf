@@ -9,7 +9,7 @@ RUN apt-get install -y ffmpeg opus-tools bpm-tools
 RUN python -m pip install --upgrade pip
 RUN python -m pip install wheel TgCrypto
 RUN python -m pip install pytgcalls==3.0.0.dev6 ffmpeg-python psutil youtube_dl requests aiofiles aiohttp
-RUN python -m pip install git+https://github.com/pyrogram/pyrogram@master)
+RUN python -m pip install git+https://github.com/pyrogram/pyrogram@master
 COPY . /app
 RUN chmod 777 /app
 WORKDIR /app
