@@ -9,7 +9,7 @@ Made with [tgcalls](https://github.com/MarshalX/tgcalls)
 and [Pyrogram Smart Plugin](https://docs.pyrogram.org/topics/smart-plugins)
 
 It's recommended to use [tgmusicbot](https://github.com/callsmusic/tgmusicbot)
-along with this userbot.
+along with this userbot
 
 ## Deploy
 
