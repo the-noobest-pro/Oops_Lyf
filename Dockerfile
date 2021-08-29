@@ -14,7 +14,7 @@ COPY . /app
 RUN chmod 777 /app
 WORKDIR /app
 
-CMD python3 -m plugins
+CMD python3 main.py
 
 # docker build -t tgcalls .
 # docker run -it --rm --env-file ./envfile --name tgvc-userbot tgcalls
