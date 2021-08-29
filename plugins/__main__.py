@@ -20,6 +20,7 @@ import logging
 
 
 from pyrogram import Client, idle
+from pytgcalls import GroupCallFactory
 
 API_ID = int(environ["API_ID"])
 API_HASH = environ["API_HASH"]
@@ -27,7 +28,8 @@ SESSION_NAME = environ["SESSION_NAME"]
 
 PLUGINS = dict(root="plugins")
 
-app = Client(SESSION_NAME, API_ID, API_HASH, plugins=PLUGINS)
+app = Client(SESSION_NAME, API_ID, API_HASH)
+group_call = GroupCallFactory(app)
 
 app.start()
 print('>>> USERBOT STARTED')
