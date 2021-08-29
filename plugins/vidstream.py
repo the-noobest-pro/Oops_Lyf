@@ -9,12 +9,10 @@ self_or_contact_filter = filters.create(
     (message.from_user and message.from_user.is_contact) or message.outgoing
 )
 
-group_call_factory = GroupCallFactory(client, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
-
-
 @Client.on_message(self_or_contact_filter
                    & filters.command("vidstream", prefixes="!"))
 async def vidstream(client, m: Message):
+    group_call_factory = GroupCallFactory(client, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
     replied = m.reply_to_message
     if not replied:
         await m.reply("`Gib Something to Stream`")
