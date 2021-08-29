@@ -9,6 +9,8 @@ self_or_contact_filter = filters.create(
     (message.from_user and message.from_user.is_contact) or message.outgoing
 )
 
+GROUP_CALLS = {}
+
 @Client.on_message(self_or_contact_filter
                    & filters.command("vidstream", prefixes="!"))
 async def vidstream(client, m: Message):
@@ -28,8 +30,19 @@ async def vidstream(client, m: Message):
             group_call = group_call_factory.get_file_group_call(f"/app/vid-{chat_id}.raw")
             await group_call.start(chat_id)
             await group_call.set_video_capture(huehue)
+            GROUP_CALLS[chat_id] = group_call
             await lel.edit("`Started !`")
         except Exception as e:
             await lel.edit(f"Error -- `{e}`")
     else:
         await m.reply("`Gib Something to Stream`")
+
+@Client.on_message(self_or_contact_filter
+                   & filters.command("stopvid", prefixes="!"))
+async def stopvid(client, m: Message):
+    chat_id = m.chat.id
+    try:
+        await GROUP_CALLS[chat_id].stop()
+        await m.reply("`Stopped !`")
+    except Exception as e:
+        await m.reply(f"Error - `{e}`")
