@@ -10,7 +10,7 @@ self_or_contact_filter = filters.create(
     (message.from_user and message.from_user.is_contact) or message.outgoing
 )
 
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.DEBUG,
                     format='[%(asctime)s - %(levelname)s] - %(name)s - %(message)s',
                     datefmt='%d-%b-%y %H:%M:%S',
                     handlers=[
@@ -19,7 +19,6 @@ logging.basicConfig(level=logging.INFO,
                         logging.StreamHandler()
                     ])
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
-logging.getLogger("pyrogram.dispatcher").setLevel(logging.INFO)
 logging.getLogger("root").setLevel(logging.INFO)
 
 
