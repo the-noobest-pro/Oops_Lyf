@@ -27,7 +27,7 @@ SESSION_NAME = environ["SESSION_NAME"]
 
 PLUGINS = dict(root="plugins")
 
-app = Client(SESSION_NAME, API_ID, API_HASH, plugins=
+app = Client(SESSION_NAME, API_ID, API_HASH, plugins=PLUGINS)
 
 app.start()
 print('>>> USERBOT STARTED')
