@@ -23,7 +23,7 @@ async def vidstream(client, m: Message):
         chat_id = m.chat.id
         try:
             huehue = await client.download_media(m.reply_to_message)
-            os.system(f'ffmpeg -i {huehue} -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le vid-{chat_id}.raw -y')
+            os.system(f'ffmpeg -i "{huehue}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le vid-{chat_id}.raw -y')
         except Exception as e:
             await lel.edit(f"Error - `{e}`")
         try:
