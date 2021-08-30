@@ -1,6 +1,5 @@
 import os
 import asyncio
-import ffmpeg
 from pytgcalls import GroupCallFactory
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -26,18 +25,12 @@ async def vidstream(client, m: Message):
         try:
             huehue = await client.download_media(m.reply_to_message)
             await lel.edit("`Converting...`")
-            os.system(f'ffmpeg -i "{huehue}" -vn vid-{chat_id}.mp3 -y')
-            process = (
-                ffmpeg.input(f'vid-{chat_id}.mp3')
-                .output(f'/app/downloads/vid-{chat_id}.raw', format='s16le', acodec='pcm_s16le', ac=2, ar='48k')
-                .overwrite_output()
-                .run_async()
-            )
+            os.system(f'ffmpeg -i "{huehue}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le vid-{chat_id}.raw -y')
         except Exception as e:
             await lel.edit(f"Error - `{e}`")
         await asyncio.sleep(5)
         try:
-            group_call = group_call_factory.get_file_group_call(f'/app/downloads/vid-{chat_id}.raw')
+            group_call = group_call_factory.get_file_group_call(f'/app/vid-{chat_id}.raw')
             await group_call.start(chat_id)
             await group_call.set_video_capture(huehue)
             GROUP_CALLS[chat_id] = group_call
