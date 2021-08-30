@@ -1,5 +1,6 @@
 import os
 import asyncio
+import ffmpeg
 from pytgcalls import GroupCallFactory
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -20,11 +21,18 @@ async def vidstream(client, m: Message):
     if not replied:
         await m.reply("`Gib Something to Stream`")
     elif replied.video or replied.document:
-        lel = await m.reply("`Downloading & Converting`")
+        lel = await m.reply("`Downloading...`")
         chat_id = m.chat.id
         try:
             huehue = await client.download_media(m.reply_to_message)
-            os.system(f'ffmpeg -i "{huehue}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le vid-{chat_id}.raw -y')
+            await lel.edit("`Converting...`")
+            os.system(f'ffmpeg -i "{huehue}" -vn vid-{chat_id}.mp3 -y')
+            process = (
+                ffmpeg.input('/app/radio.mp3')
+                .output('/app/downloads/darker.raw', format='s16le', acodec='pcm_s16le', ac=2, ar='48k')
+                .overwrite_output()
+                .run_async()
+            )
         except Exception as e:
             await lel.edit(f"Error - `{e}`")
         await asyncio.sleep(5)
