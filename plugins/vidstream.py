@@ -28,8 +28,8 @@ async def vidstream(client, m: Message):
             await lel.edit("`Converting...`")
             os.system(f'ffmpeg -i "{huehue}" -vn vid-{chat_id}.mp3 -y')
             process = (
-                ffmpeg.input('/app/radio.mp3')
-                .output('/app/downloads/darker.raw', format='s16le', acodec='pcm_s16le', ac=2, ar='48k')
+                ffmpeg.input(f'vid-{chat_id}.mp3')
+                .output(f'/app/downloads/vid-{chat_id}.raw', format='s16le', acodec='pcm_s16le', ac=2, ar='48k')
                 .overwrite_output()
                 .run_async()
             )
