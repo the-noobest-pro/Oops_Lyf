@@ -15,6 +15,10 @@ GROUP_CALLS = {}
 @Client.on_message(self_or_contact_filter
                    & filters.command("vidstream", prefixes="!"))
 async def vidstream(client, m: Message):
+    if len(m.command) < 2:
+        op = 0.81
+    else:
+        op = m.text.split(maxsplit=2)[1]
     group_call_factory = GroupCallFactory(client, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
     replied = m.reply_to_message
     if not replied:
@@ -25,7 +29,7 @@ async def vidstream(client, m: Message):
         try:
             huehue = await client.download_media(m.reply_to_message)
             await lel.edit("`Converting...`")
-            os.system(f'ffmpeg -i "{huehue}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le -filter:a "atempo=0.8" vid-{chat_id}.raw -y')
+            os.system(f'ffmpeg -i "{huehue}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le -filter:a "atempo={op}" vid-{chat_id}.raw -y')
         except Exception as e:
             await lel.edit(f"Error - `{e}`")
         await asyncio.sleep(5)
