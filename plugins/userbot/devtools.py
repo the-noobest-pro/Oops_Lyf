@@ -20,9 +20,9 @@ self_or_contact_filter = filters.create(
 
 
 async def aexec(code, client, m):
-    c = message.chat.id
+    c = m.chat.id
     message = m
-    rm = message.reply_to_message
+    rm = m.reply_to_message
     exec(
         f"async def __aexec(client, m): "
         + "".join(f"\n {l}" for l in code.split("\n"))
