@@ -25,7 +25,7 @@ async def vidstream(client, m: Message):
         try:
             huehue = await client.download_media(m.reply_to_message)
             await lel.edit("`Converting...`")
-            os.system(f'ffmpeg -i "{huehue}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le vid-{chat_id}.raw -y')
+            os.system(f'ffmpeg -i "{huehue}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le -filter:a "atempo=0.8" vid-{chat_id}.raw -y')
         except Exception as e:
             await lel.edit(f"Error - `{e}`")
         await asyncio.sleep(5)
