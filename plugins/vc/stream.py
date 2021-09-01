@@ -80,7 +80,8 @@ async def stream(client, message: Message):
     radio_call = GroupCall(client, input_filename, path_to_log_file='')
     chat_id = message.chat.id
     if chat_id in GROUP_CALLS:
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
+        GROUP_CALLS[chat_id].input_filename = input_filename
         await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
     else:
         await radiostrt.edit(f'`📻 Radio is Starting...`')
