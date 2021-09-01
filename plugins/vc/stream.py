@@ -73,7 +73,7 @@ async def stream(client, message: Message):
         print(station_stream_url)
 
     process = subprocess.Popen(
-                  ['ffmpeg', '-i', {station_stream_url}, '-vn', '-f', 's16le', '-ac', '2', '-ar', '48000', '-acodec', 'pcm_s16le', '-filter:a', "atempo=1", {input_filename}, '-y'],
+                  ['ffmpeg', '-i', station_stream_url, '-vn', '-f', 's16le', '-ac', '2', '-ar', '48000', '-acodec', 'pcm_s16le', '-filter:a', "atempo=1", input_filename, '-y'],
                   stdin=None,
                   stdout=None,
                   stderr=None,
