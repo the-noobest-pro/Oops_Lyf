@@ -72,20 +72,25 @@ async def stream(client, message: Message):
         station_stream_url = query
         print(station_stream_url)
 
-    process = (
-        ffmpeg.input(station_stream_url)
-        .output(input_filename, format='s16le', acodec='pcm_s16le', ac=2, ar='48k')
-        .overwrite_output()
-        .run_async()
-    )
+    process = subprocess.Popen(
+                  ['ffmpeg', '-i', {station_stream_url}, '-vn', '-f', 's16le', '-ac', '2', '-ar', '48000', '-acodec', 'pcm_s16le', '-filter:a', "atempo=1", {input_filename}, '-y'],
+                  stdin=None,
+                  stdout=None,
+                  stderr=None,
+                  cwd=None,
+              )
 
     FFMPEG_PROCESSES[message.chat.id] = process
     radio_call.input_filename = f'radio-{message.chat.id}.raw'
     chat_id = message.chat.id
-    await radiostrt.edit(f'`📻 Radio is Starting...`')
-    await asyncio.sleep(3)
-    await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
-    await radio_call.start(message.chat.id)
+    if chat_id in GROUP_CALLS:
+        await asyncio.sleep(1)
+        await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
+    else:
+        await radiostrt.edit(f'`📻 Radio is Starting...`')
+        await asyncio.sleep(3)
+        await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
+        await radio_call.start(message.chat.id)
 
 
 @Client.on_message(self_or_contact_filter & filters.command('end', prefixes='!'))
@@ -107,9 +112,11 @@ async def stopradio(_, message: Message):
 
 @Client.on_message(self_or_contact_filter & filters.command('quit', prefixes='!'))
 async def leaveradio(_, message: Message):
-    radio_call = GROUP_CALLS.get(message.chat.id)
-    if radio_call:
-        await radio_call.stop()
+    if chat_id in GROUP_CALLS:
+        await GROUP_CALLS[m.chat.id].stop()
+        GROUP_CALLS.pop(chat_id)
+    else:
+        return
 
 @Client.on_message(self_or_contact_filter & filters.command('radio', prefixes='!'))
 async def show_radio_help(_, m: Message):
