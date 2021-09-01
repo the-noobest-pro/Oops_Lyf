@@ -23,11 +23,15 @@ async def aexec(code, client, m):
     c = m.chat.id
     message = m
     rm = m.reply_to_message
+    if m.reply_to_message:
+        id = m.reply_to_message.message_id
+    else:
+        id = m.message_id
     exec(
-        f"async def __aexec(client, m, c, rm, message): "
+        f"async def __aexec(client, m, c, rm, message, id): "
         + "".join(f"\n {l}" for l in code.split("\n"))
     )
-    return await locals()["__aexec"](client, m, c, rm, message)
+    return await locals()["__aexec"](client, m, c, rm, message, id)
 
 p = print
 
