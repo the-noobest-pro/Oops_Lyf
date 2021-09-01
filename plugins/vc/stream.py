@@ -39,10 +39,6 @@ async def stream(client, message: Message):
     input_filename = f'radio-{message.chat.id}.raw'
     radiostrt = await message.reply_text("`...`")
 
-    radio_call = GROUP_CALLS.get(message.chat.id)
-    if radio_call is None:
-        radio_call = GroupCall(client, input_filename, path_to_log_file='')
-        GROUP_CALLS[message.chat.id] = radio_call
     process = FFMPEG_PROCESSES.get(message.chat.id)
     if process:
         try:
@@ -81,7 +77,7 @@ async def stream(client, message: Message):
               )
 
     FFMPEG_PROCESSES[message.chat.id] = process
-    radio_call.input_filename = f'radio-{message.chat.id}.raw'
+    radio_call = GroupCall(client, input_filename, path_to_log_file='')
     chat_id = message.chat.id
     if chat_id in GROUP_CALLS:
         await asyncio.sleep(1)
@@ -91,6 +87,7 @@ async def stream(client, message: Message):
         await asyncio.sleep(3)
         await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
         await radio_call.start(message.chat.id)
+        GROUP_CALLS[m.chat.id] = radio_call
 
 
 @Client.on_message(self_or_contact_filter & filters.command('end', prefixes='!'))
