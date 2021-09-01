@@ -93,9 +93,10 @@ async def stream(client, message: Message):
 @Client.on_message(self_or_contact_filter & filters.command('end', prefixes='!'))
 async def stopradio(_, message: Message):   
     smsg = await message.reply_text(f'⏱️ Stopping...')
-    radio_call = GROUP_CALLS.get(message.chat.id)
-    if radio_call:
-        radio_call.input_filename = ''
+    if chat_id in GROUP_CALLS:
+        GROUP_CALLS[m.chat.id].input_filename = ''
+    else:
+        return
 
     process = FFMPEG_PROCESSES.get(message.chat.id)
     if process:
