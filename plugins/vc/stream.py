@@ -86,15 +86,16 @@ async def stream(client, message: Message):
         await radiostrt.edit(f'`📻 Radio is Starting...`')
         await asyncio.sleep(3)
         await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
-        await radio_call.start(message.chat.id)
-        GROUP_CALLS[m.chat.id] = radio_call
+        await radio_call.start(chat_id)
+        GROUP_CALLS[chat_id] = radio_call
 
 
 @Client.on_message(self_or_contact_filter & filters.command('end', prefixes='!'))
 async def stopradio(_, message: Message):   
     smsg = await message.reply_text(f'⏱️ Stopping...')
+    chat_id = message.chat.id
     if chat_id in GROUP_CALLS:
-        GROUP_CALLS[m.chat.id].input_filename = ''
+        GROUP_CALLS[chat_id].input_filename = ''
     else:
         return
 
@@ -110,8 +111,9 @@ async def stopradio(_, message: Message):
 
 @Client.on_message(self_or_contact_filter & filters.command('quit', prefixes='!'))
 async def leaveradio(_, message: Message):
+    chat_id = message.chat.id
     if chat_id in GROUP_CALLS:
-        await GROUP_CALLS[m.chat.id].stop()
+        await GROUP_CALLS[chat_id].stop()
         GROUP_CALLS.pop(chat_id)
     else:
         return
