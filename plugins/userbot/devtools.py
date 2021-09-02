@@ -11,6 +11,7 @@ import asyncio
 from io import StringIO
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from plugins.userbot.paste import spacebin
 
 
 self_or_contact_filter = filters.create(
@@ -72,11 +73,12 @@ async def evaluate(client, m: Message):
     final_output = f"<b>Command:</b>\n<code>{cmd}</code>\n\n<b>Output</b>:\n<code>{evaluation.strip()}</code>"
     if len(final_output) > 4096:
         filename = "output.txt"
+        _paste = spacebin(final_output, "txt")
         with open(filename, "w+", encoding="utf8") as out_file:
             out_file.write(str(final_output))
         await m.reply_document(
             document=filename,
-            caption="Pyrogram Eval",
+            caption=f"Pasted **[Here]({_paste['link']})** !",
             disable_notification=True,
             reply_to_message_id=reply_to_id,
         )
