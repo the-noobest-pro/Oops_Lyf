@@ -74,11 +74,15 @@ async def evaluate(client, m: Message):
     if len(final_output) > 4096:
         filename = "output.txt"
         _paste = spacebin(final_output, "txt")
+        if isinstance(_paste, dict):
+            epaste = _paste['link']
+        else:
+            epaste = "https://spaceb.in/None"
         with open(filename, "w+", encoding="utf8") as out_file:
             out_file.write(str(final_output))
         await m.reply_document(
             document=filename,
-            caption=f"Pasted **[Here]({_paste['link']})** !",
+            caption=f"Pasted **[Here]({epaste})** !",
             disable_notification=True,
             reply_to_message_id=reply_to_id,
         )
@@ -117,11 +121,15 @@ async def terminal(client, m: Message):
     if len(OUT) > 4096:
         ultd = OUT.replace("`", "").replace("*", "").replace("_", "")
         _paste = spacebin(OUT, "txt")
+        if isinstance(_paste, dict):
+            bpaste = _paste['link']
+        else:
+            bpaste = "https://spaceb.in/None"
         with io.BytesIO(str.encode(ultd)) as out_file:
             out_file.name = "bash.txt"
             await m.reply_document(
                 document=out_file,
-                caption=f"Pasted **[Here]({_paste['link']})** !",
+                caption=f"Pasted **[Here]({bpaste})** !",
                 reply_to_message_id=m.message_id
             )
             await shtxt.delete()
