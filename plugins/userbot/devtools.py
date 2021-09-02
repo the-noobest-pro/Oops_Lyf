@@ -116,11 +116,12 @@ async def terminal(client, m: Message):
         OUT += f"**• OUTPUT:**\n`Success`"
     if len(OUT) > 4096:
         ultd = OUT.replace("`", "").replace("*", "").replace("_", "")
+        _paste = spacebin(OUT, "txt")
         with io.BytesIO(str.encode(ultd)) as out_file:
             out_file.name = "bash.txt"
             await m.reply_document(
                 document=out_file,
-                caption="`Output file`",
+                caption=f"Pasted **[Here]({_paste['link']})** !",
                 reply_to_message_id=m.message_id
             )
             await shtxt.delete()
