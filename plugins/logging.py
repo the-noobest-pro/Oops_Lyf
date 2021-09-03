@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.DEBUG,
                     datefmt='%d-%b-%y %H:%M:%S',
                     handlers=[
                         RotatingFileHandler(
-                            "/app/tgvcuserbot.txt", maxBytes=2048000, backupCount=10),
+                            "tgvcuserbot.txt", maxBytes=2048000, backupCount=10),
                         logging.StreamHandler()
                     ])
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
@@ -25,7 +25,7 @@ logging.getLogger("root").setLevel(logging.INFO)
 @Client.on_message(self_or_contact_filter & filters.command('logs', prefixes='!'))
 async def logzzz(client, m: Message):
     try:
-        await client.send_document(m.chat.id, "/app/tgvcuserbot.txt")
+        await client.send_document(m.chat.id, "tgvcuserbot.txt")
     except Exception as e:
         await m.reply(f"**Error** \n`{e}`")
         return
