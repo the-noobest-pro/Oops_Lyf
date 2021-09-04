@@ -26,17 +26,12 @@ async def vidstream(client, m: Message):
     elif replied.video or replied.document:
         lel = await m.reply("`Downloading...`")
         chat_id = m.chat.id
+        huehue = await client.download_media(m.reply_to_message)            
+        await asyncio.sleep(2)
         try:
-            huehue = await client.download_media(m.reply_to_message)
-            await lel.edit("`Converting...`")
-            os.system(f'ffmpeg -i "{huehue}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le -filter:a "atempo={op}" vid-{chat_id}.raw -y')
-        except Exception as e:
-            await lel.edit(f"Error - `{e}`")
-        await asyncio.sleep(5)
-        try:
-            group_call = group_call_factory.get_file_group_call(f'vid-{chat_id}.raw')
-            await group_call.start(chat_id)
-            await group_call.set_video_capture(huehue)
+            group_call = group_call_factory.get_file_group_call()
+            await group_call.join(chat_id)
+            await group_call.start_video(huehue)
             GROUP_CALLS[chat_id] = group_call
             await lel.edit("`Started !`")
         except Exception as e:
