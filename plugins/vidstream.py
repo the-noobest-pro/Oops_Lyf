@@ -29,7 +29,7 @@ async def vidstream(client, m: Message):
         huehue = await client.download_media(m.reply_to_message)            
         await asyncio.sleep(2)
         try:
-            group_call = group_call_factory.get_file_group_call()
+            group_call = group_call_factory.get_group_call()
             await group_call.join(chat_id)
             await group_call.start_video(huehue)
             GROUP_CALLS[chat_id] = group_call
